@@ -151,17 +151,45 @@
                     },
                     
                 ],
-                onChange: function (event, value, requiredValues, requirementsMet) {
-                    if (!requirementsMet) return;
-
-                    example2.loading(true);
-
-                    var ajaxData = requiredValues;
-                    ajaxData[this.el.attr("name")] = value;
-                    $.getJSON("/api/phones", ajaxData, function (data) {
-                        example2.apts(data);
-                        example2.loading(false);
+                onChange: function (event, dropdownData) {
+                    var arr2 = Object.values(dropdownData).filter(function (n) {
+                        return n !== "";
                     });
+                    var cate_no = arr2[arr2.length - 1];
+                    if (cate_no !== undefined) {
+                        example2.loading(true);
+                        
+                        var res_array = [];
+                        var offset;
+
+                        for (offset = 0; offset < 1000; offset += 100) {
+                            $.ajax({
+                                type: "GET",
+                                url: "/api/v2/categories/" + cate_no + "/products?display_group=1",
+                                data: { offset: offset, limit: 100 },
+                                async: false,
+                                beforeSend: function (xhr) {
+                                    xhr.setRequestHeader("X-Cafe24-Client-Id", "1mbvODfKbKpc71Z4rs3kgH");
+                                    xhr.setRequestHeader("Content-Type", "application/json");
+                                },
+                                success: function (res) {
+                                    var products = res.products                            
+                                    for (var i in products) {
+                                        res_array.push(products[i]);
+                                    }               
+                    
+                                },
+                                error: function (request, status, error) {
+                                    console.log(request);
+                                },
+                            });
+                        }
+                        console.log("last:", res_array);
+                        
+                        example2.apts(res_array);
+                        example2.loading(false);
+                        
+                    }
                 },
             });
 
