@@ -25,7 +25,7 @@
             self.initialised = false;
             self.initialState = self.el.clone(true);
             self.el.data("plugin_cascadingDropdown", this);
-            self.originalDropdownItems = self.el.children("li");
+            self.originalDropdownItems = self.el.children("option");
 
             // Init event handlers
             if (typeof self.options.onChange === "function") {
@@ -211,7 +211,7 @@
             var self = this;
 
             // Remove all dropdown items and restore to initial state
-            self.el.find("li, optgroup").remove();
+            self.el.find("option, optgroup").remove();
             self.el.append(self.originalDropdownItems);
 
             if (!items) {
@@ -250,7 +250,7 @@
         },
 
         _renderItem: function (item) {
-            return '<li value="' + item.value + '"' + (item.selected ? " selected" : "") + ">" + item.label + "</li>";
+            return '<option value="' + item.value + '"' + (item.selected ? " selected" : "") + ">" + item.label + "</option>";
         },
 
         // Trigger the ready event when instance is initialised for the first time
@@ -267,7 +267,7 @@
         // Sets the selected dropdown item
         setSelected: function (indexOrValue, triggerChange) {
             var self = this,
-                dropdownItems = self.el.find("li");
+                dropdownItems = self.el.find("option");
 
             // Trigger change event by default
             if (typeof triggerChange === "undefined") {
