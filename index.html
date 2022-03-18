@@ -59,15 +59,15 @@
             <div id="example2" class="bs-docs-example">
                 <h4>Phone finder</h4>
 
-                <select class="step1" name="sido">
-                    <option value="">시/도</option>
-                </select>
-                <select class="step2" name="gungu">
-                    <option value="">군/구</option>
-                </select>
-                <select class="step3" name="dong">
-                    <option value="">동</option>
-                </select>
+                <ul class="step1" name="sido">
+                    <li value="">시/도</li>
+                </ul>
+                <ul class="step2" name="gungu">
+                    <li value="">군/구</li>
+                </ul>
+                <ul class="step3" name="dong">
+                    <li value="">동</li>
+                </ul>
 
                 <h4>Matches <img src="res/ajax-loader.gif" data-bind="visible: loading" /></h4>
                 <ul data-bind="foreach: apts, visible: apts().length > 0">
@@ -89,7 +89,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
         <script type="text/javascript" src="res/cate_data.js"></script>
-        <script type="text/javascript" src="dist/jquery.cascadingdropdown.min.js"></script>
+        <script type="text/javascript" src="src/jquery.cascadingdropdown.js"></script>
         <script type="text/javascript">
             function viewmodel() {
                 this.apts = ko.observableArray([]);
@@ -103,46 +103,46 @@
 
             // Dynamic
             $("#example2").cascadingDropdown({
-                selectBoxes: [
+                ulBoxes: [
                     {
-                        selector: ".step1",
+                        ulor: ".step1",
                         source: [
                             { label: "서울시", value: 77 },
                             { label: "경기도", value: 99 },
                         ],
                     },
                     {
-                        selector: ".step2",
+                        ulor: ".step2",
                         requires: [".step1"],
                         source: function (request, response) {
                             data = subCate[request["sido"]];
 
-                            var selectOnlyOption = data.length <= 1;
+                            var ulOnlyli = data.length <= 1;
                             response(
                                 $.map(data, function (item, index) {
                                     return {
                                         label: item.name,
                                         value: item.cate_no,
-                                        selected: selectOnlyOption,
+                                        uled: ulOnlyli,
                                     };
                                 })
                             );
                         },
                     },
                     {
-                        selector: ".step3",
+                        ulor: ".step3",
                         requires: [".step1", ".step2"],
                         requireAll: true,
                         source: function (request, response) {
                             data = subCate[request["gungu"]];
 
-                            var selectOnlyOption = data.length <= 1;
+                            var ulOnlyli = data.length <= 1;
                             response(
                                 $.map(data, function (item, index) {
                                     return {
                                         label: item.name,
                                         value: item.cate_no,
-                                        selected: selectOnlyOption,
+                                        uled: ulOnlyli,
                                     };
                                 })
                             );
