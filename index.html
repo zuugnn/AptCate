@@ -100,41 +100,7 @@
             var example2 = new viewmodel();
 
             ko.applyBindings(example2, document.getElementById("example2"));
-            
-
-            // Basic
-            /*
-            $("#example1").cascadingDropdown({
-                selectBoxes: [
-                    {
-                        selector: ".step1",
-                        selected: "4.3",
-                    },
-                    {
-                        selector: ".step2",
-                        requires: [".step1"],
-                    },
-                    {
-                        selector: ".step3",
-                        requires: [".step1", ".step2"],
-                        onChange: function (event, value, requiredValues, requirementsMet) {
-                            if (!requirementsMet) return;
-
-                            example1.loading(true);
-
-                            console.log(event, value, requiredValues, requirementsMet);
-
-                            var ajaxData = requiredValues;
-                            ajaxData[this.el.attr("name")] = value;
-                            $.getJSON("/api/phones", ajaxData, function (data) {
-                                example1.phones(data);
-                                example1.loading(false);
-                            });
-                        },
-                    },
-                ],
-            });
-            */
+                       
 
             // Dynamic
             $("#example2").cascadingDropdown({
@@ -182,20 +148,22 @@
                                 })
                             );
                         },
-                        onChange: function (event, value, requiredValues, requirementsMet) {
-                            if (!requirementsMet) return;
-
-                            example2.loading(true);
-
-                            var ajaxData = requiredValues;
-                            ajaxData[this.el.attr("name")] = value;
-                            $.getJSON("/api/phones", ajaxData, function (data) {
-                                example2.apts(data);
-                                example2.loading(false);
-                            });
-                        },
+                        
                     },
+                    
                 ],
+                onChange: function (event, value, requiredValues, requirementsMet) {
+                    if (!requirementsMet) return;
+
+                    example2.loading(true);
+
+                    var ajaxData = requiredValues;
+                    ajaxData[this.el.attr("name")] = value;
+                    $.getJSON("/api/phones", ajaxData, function (data) {
+                        example2.apts(data);
+                        example2.loading(false);
+                    });
+                },
             });
 
             /*
