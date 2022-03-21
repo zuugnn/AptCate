@@ -51,10 +51,10 @@
             </div>
                             
 
-            <div id="example2" class="bs-docs-example">
-                <h4>Phone finder</h4>
-
-
+            <div id="aptCate" class="bs-docs-example">
+                <!--@js(/js/module/layout/aptCate.js)-->
+                <h4>Apt finder</h4>
+            
                 <select class="step1" name="sido">
                     <option value="">시/도</option>
                 </select>
@@ -64,27 +64,23 @@
                 <select class="step3" name="dong">
                     <option value="">동</option>
                 </select>
-
+            
                 <h4>Matches <img src="res/ajax-loader.gif" data-bind="visible: loading" /></h4>
                 <ul data-bind="foreach: apts, visible: apts().length > 0">
                     <li>
-                        <span data-bind="text: maker"></span>
-                        <span data-bind="text: model"></span>
+                        <span data-bind="text: product_name"></span>
                     </li>
                 </ul>
                 <p data-bind="visible: apts().length == 0">No matches</p>
             </div>
 
-            
-
             <br />
-
-            
 
         <!-- Scripts here -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
         <script type="text/javascript" src="res/cate_data.js"></script>
+        <script type="text/javascript" src="res/apt_data.js"></script>
         <script type="text/javascript" src="dist/jquery.cascadingdropdown.min.js"></script>
         <script type="text/javascript">
             function viewmodel() {
@@ -92,13 +88,11 @@
                 this.loading = ko.observable(false);
             }
 
-            var example2 = new viewmodel();
+            var aptCate = new viewmodel();
 
-            ko.applyBindings(example2, document.getElementById("example2"));
-                       
-
-            // Dynamic
-            $("#example2").cascadingDropdown({
+            ko.applyBindings(aptCate, document.getElementById("aptCate"));
+            
+            $("#aptCate").cascadingDropdown({
                 selectBoxes: [
                     {
                         selector: ".step1",
@@ -111,6 +105,7 @@
                         selector: ".step2",
                         requires: [".step1"],
                         source: function (request, response) {
+                            // subCate는 category.js에서 가져옴
                             data = subCate[request["sido"]];
 
                             var selectOnlyOption = data.length <= 1;
@@ -143,9 +138,9 @@
                                 })
                             );
                         },
-                        
+
                     },
-                    
+
                 ],
                 onChange: function (event, dropdownData) {
                     var arr2 = Object.values(dropdownData).filter(function (n) {
@@ -153,8 +148,9 @@
                     });
                     var cate_no = arr2[arr2.length - 1];
                     if (cate_no !== undefined) {
-                        example2.loading(true);
-                        
+                        aptCate.loading(true);
+
+                        /*
                         var res_array = [];
                         var offset;
 
@@ -173,27 +169,24 @@
                                     for (var i in products) {
                                         res_array.push(products[i]);
                                     }               
-                    
+
                                 },
                                 error: function (request, status, error) {
-                                    console.log(request);
+                                    console.log("e:", error);
                                 },
                             });
                         }
+                        */
+                        res_array = aptData;
+                        
                         console.log("last:", res_array);
-                        
-                        example2.apts(res_array);
-                        example2.loading(false);
-                        
+
+                        aptCate.apts(res_array);
+                        aptCate.loading(false);
                     }
                 },
             });
-<<<<<<< HEAD
 
         </script>
-=======
-        </script>
-            
->>>>>>> 7491a08625285ab29276460137ab45a5d58ed7aa
     </body>
 </html>
