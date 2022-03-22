@@ -30,6 +30,7 @@
             // Init event handlers
             if (typeof self.options.onChange === "function") {
                 self.el.change(function (event) {
+                    console.log("1");
                     var requirementsMet = self._requirementsMet() && self.el[0].value;
                     self.options.onChange.call(self, event, self.el.val(), self.getRequiredValues(), requirementsMet);
                 });
@@ -48,7 +49,7 @@
             }
 
             if (self.requiredDropdowns) {
-                self.requiredDropdowns.change(function (event) {
+                self.requiredDropdowns.click(function (event) {
                     self.update();
                 });
             }
@@ -146,9 +147,11 @@
 
         getRequiredValues: function () {
             var data = {};
+            console.log(this.requiredDropdowns);
             if (this.requiredDropdowns) {
                 $.each(this.requiredDropdowns, function () {
                     var instance = $(this).data("plugin_cascadingDropdown");
+                    //console.log(instance);
                     if (instance.name) {
                         data[instance.name] = instance.el.val();
                     }
@@ -180,10 +183,11 @@
             }
 
             // Reset the dropdown value so we don't trigger a false call
-            self.el.val("").change();
+            self.el.val("").click();
 
             // Fetch data from required dropdowns
             var data = self.getRequiredValues();
+            //console.log(data);
 
             // Pass it to defined source for processing
             self.pending++;
@@ -330,8 +334,6 @@
 
             var dropdowns = $(
                 $.map(self.options.selectBoxes, function (item) {
-                    console.log(item);
-
                     return item.selector;
                 }).join(","),
                 self.el

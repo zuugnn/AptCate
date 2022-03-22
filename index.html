@@ -113,7 +113,6 @@
                         selector: ".step2",
                         requires: [".step1"],
                         source: function (request, response) {
-                            console.log(request);
                             // subCate는 category.js에서 가져옴                            
                             data = subCate[request["sido"]];
 
@@ -155,7 +154,6 @@
                     var arr2 = Object.values(dropdownData).filter(function (n) {
                         return n !== "";
                     });
-                    console.log(dropdownData);
                     var cate_no = arr2[arr2.length - 1];
                     if (cate_no !== undefined) {
                         aptCate.loading(true);
@@ -189,7 +187,7 @@
                         */
                         res_array = aptData;
                         
-                        console.log("last:", res_array);
+                        //console.log("last:", res_array);
 
                         aptCate.apts(res_array);
                         aptCate.loading(false);
