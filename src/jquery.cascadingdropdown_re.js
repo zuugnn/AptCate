@@ -29,9 +29,7 @@
 
             // Init event handlers
             if (typeof self.options.onChange === "function") {
-                console.log("1");
                 self.el.on("click", function (event) {
-                    console.log(event);
                     var requirementsMet = self._requirementsMet() && self.el[0].value;
                     self.options.onChange.call(self, event, self.el.val(), self.getRequiredValues(), requirementsMet);
                 });
@@ -51,8 +49,6 @@
 
             if (self.requiredDropdowns) {
                 self.requiredDropdowns.click(function (event) {
-                    //여기까지 진행
-                    console.log(event);
                     self.update();
                 });
             }
@@ -188,7 +184,7 @@
             self.el.val("").click();
 
             // Fetch data from required dropdowns
-            var data = self.getRequiredValues();
+            var data = self.getRequiredValues(); //문제임
 
             // Pass it to defined source for processing
             self.pending++;
@@ -391,10 +387,12 @@
 
             // Build the object and insert values from instances with name
             $.each(this.dropdowns, function (index, instance) {
+                console.log(instance.el);
                 if (instance.name) {
                     values[instance.name] = instance.el.val();
                 }
             });
+            console.log(values);
 
             return values;
         },
